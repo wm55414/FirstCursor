@@ -1,0 +1,23 @@
+<div class="desktop" (click)="onDesktopClick()">
+  @for (item of desktopItems; track item.id) {
+    <div class="desktop-item"
+         [class.selected]="selectedItem()?.id === item.id"
+         [style.left.px]="item.x"
+         [style.top.px]="item.y"
+         (click)="$event.stopPropagation(); onItemClick(item)"
+         (dblclick)="onItemDoubleClick(item)">
+      <div class="icon">{{ item.icon }}</div>
+      <div class="label">{{ item.name }}</div>
+    </div>
+  }
+
+  @for (window of windows(); track window.id) {
+    <app-window
+      [windowData]="window"
+      (close)="onWindowClose($event)"
+      (focus)="onWindowFocus($event)"
+      (updatePosition)="onWindowPositionUpdate($event)"
+      (updateSize)="onWindowSizeUpdate($event)">
+    </app-window>
+  }
+</div>
