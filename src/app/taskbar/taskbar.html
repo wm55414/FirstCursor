@@ -1,0 +1,37 @@
+<div class="taskbar">
+  <div class="taskbar-left">
+    <button class="start-button" type="button">
+      <span class="start-logo">⊞</span>
+    </button>
+  </div>
+
+  <div class="taskbar-center">
+    @if (windows().length === 0) {
+      <div class="taskbar-empty">No windows open</div>
+    } @else {
+      @for (window of windows(); track trackByWindowId($index, window)) {
+        <button
+          class="taskbar-item"
+          type="button"
+          (click)="onTaskClick(window.id)"
+          [class.active]="window.id === activeWindowId()"
+        >
+          <span class="taskbar-item-icon">
+            {{ getWindowIcon(window) }}
+          </span>
+          <span class="taskbar-item-title">
+            {{ window.title }}
+          </span>
+        </button>
+      }
+    }
+  </div>
+
+  <div class="taskbar-right">
+    <div class="taskbar-tray-icon">🔊</div>
+    <div class="taskbar-tray-icon">📶</div>
+    <div class="taskbar-time">
+      {{ currentTime() }}
+    </div>
+  </div>
+</div>

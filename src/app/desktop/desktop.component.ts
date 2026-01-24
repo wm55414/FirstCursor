@@ -1,7 +1,8 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
 import { WindowComponent, WindowData } from '../window/window.component';
+import { Taskbar } from '../taskbar/taskbar';
 
 interface DesktopItem {
   id: string;
@@ -15,7 +16,7 @@ interface DesktopItem {
 @Component({
   selector: 'app-desktop',
   standalone: true,
-  imports: [CommonModule, WindowComponent],
+  imports: [CommonModule, WindowComponent, Taskbar],
   templateUrl: './desktop.component.html',
   styleUrls: ['./desktop.component.css']
 })
@@ -74,9 +75,16 @@ export class DesktopComponent {
   selectedItem = signal<DesktopItem | null>(null);
   windows = computed(() => this.windowManager.windows());
 
+  private isDraggingItem = false;
+  private draggingItemId: string | null = null;
+  private dragOffset = { x: 0, y: 0 };
+
   constructor(private windowManager: WindowManagerService) {}
 
   onItemClick(item: DesktopItem): void {
+    if (this.isDraggingItem) {
+      return;
+    }
     this.selectedItem.set(item);
     console.log(`Clicked: ${item.name} (${item.type})`);
   }
@@ -89,6 +97,16 @@ export class DesktopComponent {
 
   onDesktopClick(): void {
     this.selectedItem.set(null);
+  }
+
+  onItemMouseDown(event: MouseEvent, item: DesktopItem): void {
+    event.stopPropagation();
+    this.isDraggingItem = true;
+    this.draggingItemId = item.id;
+    this.dragOffset = {
+      x: event.clientX - item.x,
+      y: event.clientY - item.y
+    };
   }
 
   onWindowClose(id: string): void {
@@ -105,5 +123,35 @@ export class DesktopComponent {
 
   onWindowSizeUpdate(data: { id: string; width: number; height: number }): void {
     this.windowManager.updateWindowSize(data.id, data.width, data.height);
+  }
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(event: MouseEvent): void {
+    if (!this.isDraggingItem || !this.draggingItemId) {
+      return;
+    }
+
+    const desktopRect = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+
+    const newX = event.clientX - this.dragOffset.x;
+    const newY = event.clientY - this.dragOffset.y;
+
+    const clampedX = Math.max(0, Math.min(newX, desktopRect.width - 80));
+    const clampedY = Math.max(0, Math.min(newY, desktopRect.height - 120));
+
+    this.desktopItems = this.desktopItems.map(item =>
+      item.id === this.draggingItemId
+        ? { ...item, x: clampedX, y: clampedY }
+        : item
+    );
+  }
+
+  @HostListener('document:mouseup')
+  onMouseUp(): void {
+    this.isDraggingItem = false;
+    this.draggingItemId = null;
   }
 }

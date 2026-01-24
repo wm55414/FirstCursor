@@ -4,6 +4,7 @@
          [class.selected]="selectedItem()?.id === item.id"
          [style.left.px]="item.x"
          [style.top.px]="item.y"
+         (mousedown)="onItemMouseDown($event, item)"
          (click)="$event.stopPropagation(); onItemClick(item)"
          (dblclick)="onItemDoubleClick(item)">
       <div class="icon">{{ item.icon }}</div>
@@ -20,4 +21,6 @@
       (updateSize)="onWindowSizeUpdate($event)">
     </app-window>
   }
+
+  <app-taskbar></app-taskbar>
 </div>

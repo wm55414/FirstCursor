@@ -1,0 +1,32 @@
+<div class="login-shell">
+  <div class="login-background"></div>
+  <div class="login-overlay"></div>
+
+  <div class="login-content">
+    <div class="lock-screen-time">
+      <div class="time">{{ time() }}</div>
+      <div class="date">{{ date() }}</div>
+    </div>
+
+    <div class="login-card">
+      <div class="avatar"></div>
+      <div class="username">User</div>
+
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <input
+          type="password"
+          name="password"
+          autocomplete="current-password"
+          placeholder="Password"
+          [ngModel]="password()"
+          (ngModelChange)="password.set($event)"
+          (keyup.enter)="onPasswordEnter()"
+          required
+        />
+        <button type="submit">Sign in</button>
+      </form>
+
+      <div class="hint">Press Enter or click Sign in</div>
+    </div>
+  </div>
+</div>

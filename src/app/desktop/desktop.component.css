@@ -12,7 +12,7 @@
   position: absolute;
   width: 80px;
   text-align: center;
-  cursor: pointer;
+  cursor: default;
   padding: 8px;
   border-radius: 4px;
   transition: background-color 0.2s;
