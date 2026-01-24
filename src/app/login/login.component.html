@@ -10,23 +10,26 @@
 
     <div class="login-card">
       <div class="avatar"></div>
-      <div class="username">User</div>
-
-      <form (ngSubmit)="onSubmit()" class="login-form">
-        <input
-          type="password"
-          name="password"
-          autocomplete="current-password"
-          placeholder="Password"
-          [ngModel]="password()"
-          (ngModelChange)="password.set($event)"
-          (keyup.enter)="onPasswordEnter()"
-          required
-        />
-        <button type="submit">Sign in</button>
-      </form>
-
-      <div class="hint">Press Enter or click Sign in</div>
+      <div class="username">William Lin</div>
+      
+      <div class="login-info">
+        @if (!isLoading()) {
+          <form (ngSubmit)="onSubmit()" class="login-form">
+            <button type="submit">Sign in</button>
+          </form>
+        } @else {
+          <div class="loading-container">
+            <div class="spinner">
+              <div class="dot dot1"></div>
+              <div class="dot dot2"></div>
+              <div class="dot dot3"></div>
+              <div class="dot dot4"></div>
+              <div class="dot dot5"></div>
+            </div>
+          </div>
+          <div class="welcome-message">Welcome</div>
+        }
+      </div>
     </div>
   </div>
 </div>

@@ -49,6 +49,7 @@
   position: absolute;
   inset: 10px;
   background: url('/assets/icons/dash.png') no-repeat center / contain;
+  filter: invert(1);
 }
 
 .control-btn.maximize::before {
@@ -56,6 +57,7 @@
   position: absolute;
   inset: 10px;
   background: url('/assets/icons/square.png') no-repeat center / contain;
+  filter: invert(1);
 }
 
 .control-btn.close::before {
@@ -63,6 +65,7 @@
   position: absolute;
   inset: 10px;
   background: url('/assets/icons/close.png') no-repeat center / contain;
+  filter: invert(1);
 }
 
 .title-text {

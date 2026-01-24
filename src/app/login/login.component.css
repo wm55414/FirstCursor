@@ -66,10 +66,6 @@
 .login-card {
   width: 320px;
   padding: 32px 28px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(18px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -77,26 +73,14 @@
 }
 
 .avatar {
-  width: 84px;
-  height: 84px;
+  width: 160px;
+  height: 160px;
   border-radius: 50%;
-  /* background: linear-gradient(145deg, #1a3c70, #2359a6); */
-  background: url('/assets/images/login-head.jpeg') no-repeat center center;
-  /* display: flex; */
+  background: url('/assets/images/login-head.jpeg') no-repeat center / 110%;
   align-items: center;
   justify-content: center;
   box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 6px 14px rgba(0, 0, 0, 0.35);
 }
-
-/* .avatar::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url('/assets/images/login-head.jpeg') no-repeat center center;
-  border-radius: 50%;
-  background-size: cover;
-  filter: brightness(0.9);
-} */
 
 .username {
   font-size: 22px;
@@ -105,22 +89,10 @@
 }
 
 .login-form {
-  width: 100%;
+  width: 40%;
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.login-form input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.1);
-  color: #f7f7f7;
-  font-size: 14px;
-  outline: none;
-  transition: border-color 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
 }
 
 .login-form input:focus {
@@ -129,22 +101,30 @@
   background: rgba(255, 255, 255, 0.16);
 }
 
+.login-info{
+  width: 300px;
+  height: 100px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;;
+}
+
 .login-form button {
+  border-radius: 4px;
+  border: 0px;
   padding: 10px 12px;
-  border-radius: 8px;
-  border: none;
-  background: linear-gradient(145deg, #4cc2ff, #1b72e8);
+  background: rgba(233, 237, 239, 0.15);
   color: #ffffff;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  transition: transform 0.1s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  border: 1.5px transparent solid;
+  /* transition: transform 0.1s ease, box-shadow 0.12s ease, filter 0.12s ease; */
 }
 
 .login-form button:hover {
-  filter: brightness(1.05);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.40);
+  border-color: white;
+  /* box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); */
 }
 
 .login-form button:active {
@@ -152,8 +132,48 @@
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.45);
 }
 
-.hint {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.8);
-  text-align: center;
+.loading-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 0 10px 0;
+}
+
+.spinner {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+  animation: spin 1.8s linear infinite;
+}
+
+.dot1 { animation-delay: -1.4s;}
+.dot2 { animation-delay: -1.2s;}
+.dot3 { animation-delay: -1.0s;}
+.dot4 { animation-delay: -0.8s;}
+.dot5 { animation-delay: -0.6s;}
+
+@keyframes spin {
+  0%   { transform: rotate(0deg)   translateY(-20px); }
+  10%   { transform: rotate(20deg)   translateY(-20px); }
+  50%  { transform: rotate(270deg) translateY(-20px); }
+  100% { transform: rotate(360deg) translateY(-20px); }
+}
+
+
+.welcome-message{
+  font-size: 20px;
+  font-weight: 500;
+  color: #f8f9fb;
 }

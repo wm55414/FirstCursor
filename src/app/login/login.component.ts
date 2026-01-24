@@ -12,9 +12,9 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent implements OnDestroy {
   @Output() login = new EventEmitter<boolean>();
 
-  password = signal('');
   time = signal(this.formatTime(new Date()));
   date = signal(this.formatDate(new Date()));
+  isLoading = signal(false);
   private intervalId: number | null = null;
 
   constructor() {
@@ -32,11 +32,16 @@ export class LoginComponent implements OnDestroy {
   }
 
   onSubmit(): void {
-    this.login.emit(true);
-  }
-
-  onPasswordEnter(): void {
-    this.onSubmit();
+    if (this.isLoading()) {
+      return;
+    }
+    
+    this.isLoading.set(true);
+    
+    setTimeout(() => {
+      this.login.emit(true);
+      this.isLoading.set(false);
+    }, 4000);
   }
 
   private formatTime(date: Date): string {
