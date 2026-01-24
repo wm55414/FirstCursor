@@ -7,12 +7,12 @@
      (click)="onWindowClick()">
   
   <div class="title-bar" (mousedown)="onTitleBarMouseDown($event)">
+    <div class="title-text">{{ windowData.title }}</div>
     <div class="title-bar-controls">
       <button class="control-btn minimize" title="Minimize"></button>
       <button class="control-btn maximize" title="Maximize"></button>
       <button class="control-btn close" title="Close" (click)="onClose()"></button>
     </div>
-    <div class="title-text">{{ windowData.title }}</div>
   </div>
 
   <div class="window-content">
