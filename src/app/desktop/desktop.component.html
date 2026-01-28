@@ -18,7 +18,10 @@
       (close)="onWindowClose($event)"
       (focus)="onWindowFocus($event)"
       (updatePosition)="onWindowPositionUpdate($event)"
-      (updateSize)="onWindowSizeUpdate($event)">
+      (updateSize)="onWindowSizeUpdate($event)"
+      (minimize)="onWindowMinimize($event)"
+      (toggleMaximize)="onWindowToggleMaximize($event)"
+      (openPicture)="onOpenPictureFromFolder($event)">
     </app-window>
   }
 

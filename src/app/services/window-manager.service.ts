@@ -19,7 +19,9 @@ export class WindowManagerService {
       y: 100 + this.windows().length * 30,
       width: type === 'folder' ? 500 : 600,
       height: type === 'folder' ? 400 : 450,
-      zIndex: this.nextZIndex++
+      zIndex: this.nextZIndex++,
+      isMinimized: false,
+      isMaximized: false
     };
 
     this.windows.update(windows => [...windows, newWindow]);
@@ -55,5 +57,60 @@ export class WindowManagerService {
       }
       return w;
     }));
+  }
+
+  toggleMinimizeWindow(id: string): void {
+    this.windows.update(windows =>
+      windows.map(w => {
+        if (w.id === id) {
+          return {
+            ...w,
+            isMinimized: !w.isMinimized
+          };
+        }
+        return w;
+      })
+    );
+  }
+
+  toggleMaximizeWindow(id: string): void {
+    const taskbarHeight = 44;
+
+    this.windows.update(windows =>
+      windows.map(w => {
+        if (w.id !== id) {
+          return w;
+        }
+
+        if (!w.isMaximized) {
+          const restoreBounds = {
+            x: w.x,
+            y: w.y,
+            width: w.width,
+            height: w.height
+          };
+
+          return {
+            ...w,
+            isMaximized: true,
+            isMinimized: false,
+            restoreBounds,
+            x: 0,
+            y: 0,
+            width: window.innerWidth,
+            height: window.innerHeight - taskbarHeight
+          };
+        } else if (w.restoreBounds) {
+          return {
+            ...w,
+            isMaximized: false,
+            ...w.restoreBounds,
+            restoreBounds: undefined
+          };
+        }
+
+        return w;
+      })
+    );
   }
 }

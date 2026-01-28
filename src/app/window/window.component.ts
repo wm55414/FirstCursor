@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FileItem, FileSystemService } from '../services/file-system.service';
 
 export interface WindowData {
   id: string;
@@ -11,6 +12,14 @@ export interface WindowData {
   width: number;
   height: number;
   zIndex: number;
+  isMinimized: boolean;
+  isMaximized: boolean;
+  restoreBounds?: {
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+  };
 }
 
 @Component({
@@ -20,17 +29,30 @@ export interface WindowData {
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css']
 })
-export class WindowComponent {
+export class WindowComponent implements OnInit {
   @Input() windowData!: WindowData;
   @Output() close = new EventEmitter<string>();
   @Output() focus = new EventEmitter<string>();
   @Output() updatePosition = new EventEmitter<{ id: string; x: number; y: number }>();
   @Output() updateSize = new EventEmitter<{ id: string; width: number; height: number }>();
+  @Output() minimize = new EventEmitter<string>();
+  @Output() toggleMaximize = new EventEmitter<string>();
+  @Output() openPicture = new EventEmitter<{ title: string }>();
 
   isDragging = false;
   isResizing = false;
   dragOffset = { x: 0, y: 0 };
   resizeStart = { x: 0, y: 0, width: 0, height: 0 };
+
+  currentFolderPath: string[] = [];
+
+  constructor(private fileSystem: FileSystemService) {}
+
+  ngOnInit(): void {
+    if (this.windowData.type === 'folder') {
+      this.currentFolderPath = [this.windowData.title];
+    }
+  }
 
   onWindowClick(): void {
     this.focus.emit(this.windowData.id);
@@ -40,7 +62,20 @@ export class WindowComponent {
     this.close.emit(this.windowData.id);
   }
 
+  onMinimize(event: MouseEvent): void {
+    event.stopPropagation();
+    this.minimize.emit(this.windowData.id);
+  }
+
+  onToggleMaximize(event: MouseEvent): void {
+    event.stopPropagation();
+    this.toggleMaximize.emit(this.windowData.id);
+  }
+
   onTitleBarMouseDown(event: MouseEvent): void {
+    if (this.windowData.isMaximized) {
+      return;
+    }
     this.isDragging = true;
     this.focus.emit(this.windowData.id);
     this.dragOffset = {
@@ -51,6 +86,9 @@ export class WindowComponent {
   }
 
   onResizeHandleMouseDown(event: MouseEvent): void {
+    if (this.windowData.isMaximized) {
+      return;
+    }
     this.isResizing = true;
     this.focus.emit(this.windowData.id);
     this.resizeStart = {
@@ -98,6 +136,24 @@ export class WindowComponent {
       'Downloads': ['setup.exe', 'archive.zip', 'document.pdf']
     };
     return folderFiles[this.windowData.title] || ['No files'];
+  }
+
+  getCurrentFolderItems(): FileItem[] {
+    if (this.windowData.type !== 'folder') {
+      return [];
+    }
+    return this.fileSystem.getFolderItems(this.currentFolderPath);
+  }
+
+  onFolderItemDoubleClick(item: FileItem): void {
+    if (item.type === 'folder') {
+      this.currentFolderPath = [...this.currentFolderPath, item.name];
+      return;
+    }
+
+    if (item.type === 'picture') {
+      this.openPicture.emit({ title: item.name });
+    }
   }
 
   getFileIcon(fileName: string): string {

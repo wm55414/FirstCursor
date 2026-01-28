@@ -91,7 +91,7 @@ export class DesktopComponent {
 
   onItemDoubleClick(item: DesktopItem): void {
     console.log(`Double-clicked: ${item.name}`);
-    this.selectedItem.set(item);
+    this.selectedItem.set(null);
     this.windowManager.openWindow(item.name, item.type, item.name);
   }
 
@@ -123,6 +123,18 @@ export class DesktopComponent {
 
   onWindowSizeUpdate(data: { id: string; width: number; height: number }): void {
     this.windowManager.updateWindowSize(data.id, data.width, data.height);
+  }
+
+  onWindowMinimize(id: string): void {
+    this.windowManager.toggleMinimizeWindow(id);
+  }
+
+  onWindowToggleMaximize(id: string): void {
+    this.windowManager.toggleMaximizeWindow(id);
+  }
+
+  onOpenPictureFromFolder(payload: { title: string }): void {
+    this.windowManager.openWindow(payload.title, 'picture', payload.title);
   }
 
   @HostListener('document:mousemove', ['$event'])

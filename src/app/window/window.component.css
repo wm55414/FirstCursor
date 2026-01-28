@@ -8,6 +8,10 @@
   min-height: 200px;
 }
 
+.window.maximized {
+  border-radius: 0;
+}
+
 .title-bar {
   background: linear-gradient(to bottom, #0078d4 0%, #005a9e 100%);
   color: white;

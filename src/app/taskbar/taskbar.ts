@@ -41,6 +41,27 @@ export class Taskbar implements OnDestroy {
   }
 
   onTaskClick(id: string): void {
+    const currentWindows = this.windowManager.windows();
+    const target = currentWindows.find(w => w.id === id);
+
+    if (!target) {
+      return;
+    }
+
+    // If the window is minimized, restore and focus it
+    if (target.isMinimized) {
+      this.windowManager.toggleMinimizeWindow(id);
+      this.windowManager.focusWindow(id);
+      return;
+    }
+
+    // If this is the active window, minimize it when clicking again
+    if (this.activeWindowId() === id) {
+      this.windowManager.toggleMinimizeWindow(id);
+      return;
+    }
+
+    // Otherwise, just focus it
     this.windowManager.focusWindow(id);
   }
 
