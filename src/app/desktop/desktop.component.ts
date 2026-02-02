@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
 import { WindowComponent, WindowData } from '../window/window.component';
 import { Taskbar } from '../taskbar/taskbar';
+import { TypeText, TypeTextContent } from '../type-text/type-text';
 
 interface DesktopItem {
   id: string;
@@ -16,7 +17,7 @@ interface DesktopItem {
 @Component({
   selector: 'app-desktop',
   standalone: true,
-  imports: [CommonModule, WindowComponent, Taskbar],
+  imports: [CommonModule, WindowComponent, Taskbar, TypeText],
   templateUrl: './desktop.component.html',
   styleUrls: ['./desktop.component.css']
 })
@@ -71,6 +72,19 @@ export class DesktopComponent {
       y: 250
     }
   ];
+
+  typeText : TypeTextContent = {
+    fullText: [
+      'Hello, I\'m William Lin.',
+      'It\'s bored to make a traditional portfolio website.',
+      'So I made this OS-in-browser instead!',
+      'Enjoy exploring!'
+    ],
+    textTypeInterval: 100,
+    lineTypeInterval: 2500,
+    rollbackInterval: 50,
+    needRollback: false,
+  };
 
   selectedItem = signal<DesktopItem | null>(null);
   windows = computed(() => this.windowManager.windows());
@@ -152,7 +166,7 @@ export class DesktopComponent {
     const newY = event.clientY - this.dragOffset.y;
 
     const clampedX = Math.max(0, Math.min(newX, desktopRect.width - 80));
-    const clampedY = Math.max(0, Math.min(newY, desktopRect.height - 120));
+    const clampedY = Math.max(0, Math.min(newY, desktopRect.height - 150));
 
     this.desktopItems = this.desktopItems.map(item =>
       item.id === this.draggingItemId
