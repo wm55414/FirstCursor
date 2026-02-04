@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class LoginComponent implements OnDestroy {
   @Output() login = new EventEmitter<boolean>();
 
+  loginDelay: number = 0; // 4 seconds delay to simulate login process
   time = signal(this.formatTime(new Date()));
   date = signal(this.formatDate(new Date()));
   isLoading = signal(false);
@@ -41,7 +42,7 @@ export class LoginComponent implements OnDestroy {
     setTimeout(() => {
       this.login.emit(true);
       this.isLoading.set(false);
-    }, 4000);
+    }, this.loginDelay);
   }
 
   private formatTime(date: Date): string {

@@ -1,2 +1,1 @@
-<p class="content">{{ text() }}</p>
-<p class="cursor">|</p>
+<p [class.content::after = "needCursor"] class="content">{{ text() }}</p>

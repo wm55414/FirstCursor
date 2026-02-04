@@ -1,33 +1,22 @@
 <div class="desktop" (click)="onDesktopClick()">
   @for (item of desktopItems; track item.id) {
-    <div class="desktop-item"
-         [class.selected]="selectedItem()?.id === item.id"
-         [style.left.px]="item.x"
-         [style.top.px]="item.y"
-         (mousedown)="onItemMouseDown($event, item)"
-         (click)="$event.stopPropagation(); onItemClick(item)"
-         (dblclick)="onItemDoubleClick(item)">
-      <div class="icon">{{ item.icon }}</div>
-      <div class="label">{{ item.name }}</div>
-    </div>
+  <div class="desktop-item" [class.selected]="selectedItem()?.id === item.id" [style.left.px]="item.x"
+    [style.top.px]="item.y" (mousedown)="onItemMouseDown($event, item)"
+    (click)="$event.stopPropagation(); onItemClick(item)" (dblclick)="onItemDoubleClick(item)">
+    <div class="icon">{{ item.icon }}</div>
+    <div class="label">{{ item.name }}</div>
+  </div>
   }
 
   @for (window of windows(); track window.id) {
-    <app-window
-      [windowData]="window"
-      (close)="onWindowClose($event)"
-      (focus)="onWindowFocus($event)"
-      (updatePosition)="onWindowPositionUpdate($event)"
-      (updateSize)="onWindowSizeUpdate($event)"
-      (minimize)="onWindowMinimize($event)"
-      (toggleMaximize)="onWindowToggleMaximize($event)"
-      (openPicture)="onOpenPictureFromFolder($event)">
-    </app-window>
+  <app-window [windowData]="window" (close)="onWindowClose($event)" (focus)="onWindowFocus($event)"
+    (updatePosition)="onWindowPositionUpdate($event)" (updateSize)="onWindowSizeUpdate($event)"
+    (minimize)="onWindowMinimize($event)" (toggleMaximize)="onWindowToggleMaximize($event)"
+    (openPicture)="onOpenPictureFromFolder($event)">
+  </app-window>
   }
-  <div class="type-text-container">
-    <app-type-text 
-      [typeText]="typeText"
-    ></app-type-text>
+  <div class="type-text-container" [class.fade-in]="!isFadedOut" [class.fade-out]="isFadedOut">
+    <app-type-text [typeText]="typeText" [needCursor]="true" (displayFinished)="onTypeFinished()"></app-type-text>
   </div>
 
   <app-taskbar></app-taskbar>

@@ -66,3 +66,15 @@ body {
   padding: 0;
   overflow: hidden;
 }
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  pointer-events: none;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  pointer-events: auto;
+}

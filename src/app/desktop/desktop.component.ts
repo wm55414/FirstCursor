@@ -1,4 +1,4 @@
-import { Component, signal, computed, HostListener } from '@angular/core';
+import { Component, signal, computed, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
 import { WindowComponent, WindowData } from '../window/window.component';
@@ -22,6 +22,8 @@ interface DesktopItem {
   styleUrls: ['./desktop.component.css']
 })
 export class DesktopComponent {
+  @ViewChild(TypeText) typeTextComponent!: TypeText;
+  
   desktopItems: DesktopItem[] = [
     {
       id: '1',
@@ -73,7 +75,7 @@ export class DesktopComponent {
     }
   ];
 
-  typeText : TypeTextContent = {
+  typeText: TypeTextContent = {
     fullText: [
       'Hello, I\'m William Lin.',
       'It\'s bored to make a traditional portfolio website.',
@@ -83,7 +85,6 @@ export class DesktopComponent {
     textTypeInterval: 100,
     lineTypeInterval: 2500,
     rollbackInterval: 50,
-    needRollback: false,
   };
 
   selectedItem = signal<DesktopItem | null>(null);
@@ -93,7 +94,23 @@ export class DesktopComponent {
   private draggingItemId: string | null = null;
   private dragOffset = { x: 0, y: 0 };
 
-  constructor(private windowManager: WindowManagerService) {}
+  constructor(private windowManager: WindowManagerService) { }
+
+  isFadedOut = true;
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.isFadedOut = false;
+      setTimeout(() => this.typeTextComponent.type(true), 2000);
+    }, 1000);
+    
+  }
+
+  onTypeFinished() {
+    setTimeout(() => {
+      this.isFadedOut = true;
+    }, 1000); // Wait 1 second after typing finishes before fading out
+  }
 
   onItemClick(item: DesktopItem): void {
     if (this.isDraggingItem) {

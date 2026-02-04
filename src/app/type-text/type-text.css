@@ -1,13 +1,22 @@
 .content {
-    display: inline-block;
+    display: inline;
     font-size: 24px;
     font-family: 'consolas', Courier, monospace;
 }
-
-.cursor {
-    display: inline;
+.content::after {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 1em;
+    background-color: white;
+    vertical-align: bottom;
     animation: blink 1s steps(1) infinite;
 }
+
+/* .cursor {
+    display: inline;
+    animation: blink 1s steps(1) infinite;
+} */
 
 @keyframes blink{
     0% { opacity: 1;}

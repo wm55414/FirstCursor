@@ -1,11 +1,10 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 
 export interface TypeTextContent {
   fullText: string[];
   rollbackInterval: number;
   textTypeInterval: number;
   lineTypeInterval: number;
-  needRollback: boolean;
 }
 
 @Component({
@@ -16,16 +15,24 @@ export interface TypeTextContent {
 })
 export class TypeText {
   @Input() typeText! : TypeTextContent;
+  @Input() needCursor!: boolean;
+  @Output() displayFinished = new EventEmitter<void>();
 
   text = signal("");
-  displayFinished = signal(false);
-
-  ngOnInit() {
-    this.typeLineAndRollback();
-  }
 
   private delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+  async type(needRollback: boolean){
+    if(needRollback){
+      await this.typeLineAndRollback();
+    }
+    else{
+      await this.typeLine();
+    }
+    this.displayFinished.emit();
+  }
+
+  // Type text without rollback
   async typeLine(){
     for (let line of this.typeText.fullText) {
       for (let char of line) {
@@ -37,12 +44,12 @@ export class TypeText {
     }
   }
 
+  // Rollback each line after typing it.
   async typeLineAndRollback(){
     for (let line of this.typeText.fullText) {
       for (let char of line) {
         this.text.set(this.text() + char);
-        // if(char != ' ')
-          await this.delay(this.typeText.textTypeInterval);
+        await this.delay(this.typeText.textTypeInterval);
       }
       await this.delay(this.typeText.lineTypeInterval);
       for (let i = 0; i < line.length; i++) {
