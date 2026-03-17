@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileItem, FileSystemService } from '../services/file-system.service';
+import { WeatherComponent } from '../weather/weather.component';
 
 export interface WindowData {
   id: string;
   title: string;
-  type: 'folder' | 'picture';
+  type: 'folder' | 'picture' | 'weather';
   content: string;
   x: number;
   y: number;
@@ -25,7 +26,7 @@ export interface WindowData {
 @Component({
   selector: 'app-window',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, WeatherComponent],
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css']
 })
@@ -46,7 +47,7 @@ export class WindowComponent implements OnInit {
 
   currentFolderPath: string[] = [];
 
-  constructor(private fileSystem: FileSystemService) {}
+  constructor(private fileSystem: FileSystemService) { }
 
   ngOnInit(): void {
     if (this.windowData.type === 'folder') {

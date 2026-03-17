@@ -1,57 +1,56 @@
 @if (!windowData.isMinimized) {
-  <div class="window"
-       [class.maximized]="windowData.isMaximized"
-       [style.left.px]="windowData.x"
-       [style.top.px]="windowData.y"
-       [style.width.px]="windowData.width"
-       [style.height.px]="windowData.height"
-       [style.z-index]="windowData.zIndex"
-       (click)="onWindowClick()">
-  
-    <div class="title-bar" (mousedown)="onTitleBarMouseDown($event)">
-      <div class="title-text">{{ windowData.title }}</div>
-      <div class="title-bar-controls">
-        <button class="control-btn minimize" title="Minimize" (click)="onMinimize($event)"></button>
-        <button class="control-btn maximize" title="Maximize" (click)="onToggleMaximize($event)"></button>
-        <button class="control-btn close" title="Close" (click)="onClose()"></button>
+<div class="window" [class.maximized]="windowData.isMaximized" [style.left.px]="windowData.x"
+  [style.top.px]="windowData.y" [style.width.px]="windowData.width" [style.height.px]="windowData.height"
+  [style.z-index]="windowData.zIndex" (click)="onWindowClick()">
+
+  <div class="title-bar" (mousedown)="onTitleBarMouseDown($event)">
+    <div class="title-text">{{ windowData.title }}</div>
+    <div class="title-bar-controls">
+      <button class="control-btn minimize" title="Minimize" (click)="onMinimize($event)"></button>
+      @if (windowData.isMaximized) {
+      <button class="control-btn maximize" title="Restore" (click)="onToggleMaximize($event)"></button>
+      } @else {
+      <button class="control-btn restore" title="Maximize" (click)="onToggleMaximize($event)"></button>
+      }
+      <button class="control-btn close" title="Close" (click)="onClose()"></button>
+    </div>
+  </div>
+
+  <div class="window-content">
+    @switch (windowData.type) {
+    @case ('folder') {
+    <div class="folder-content">
+      <div class="folder-icon">📁</div>
+      <h3>{{ windowData.title }}</h3>
+      <div class="file-list">
+        @for (item of getCurrentFolderItems(); track item.name) {
+        <div class="file-item">
+          <span class="file-icon">
+            {{ item.type === 'folder' ? '📁' : getFileIcon(item.name) }}
+          </span>
+          <span class="file-name" (dblclick)="onFolderItemDoubleClick(item)">
+            {{ item.name }}
+          </span>
+        </div>
+        }
       </div>
     </div>
-
-    <div class="window-content">
-      @switch (windowData.type) {
-        @case ('folder') {
-          <div class="folder-content">
-            <div class="folder-icon">📁</div>
-            <h3>{{ windowData.title }}</h3>
-            <div class="file-list">
-              @for (item of getCurrentFolderItems(); track item.name) {
-                <div class="file-item">
-                  <span class="file-icon">
-                    {{ item.type === 'folder' ? '📁' : getFileIcon(item.name) }}
-                  </span>
-                  <span
-                    class="file-name"
-                    (dblclick)="onFolderItemDoubleClick(item)"
-                  >
-                    {{ item.name }}
-                  </span>
-                </div>
-              }
-            </div>
-          </div>
-        }
-        @case ('picture') {
-          <div class="picture-content">
-            <div class="picture-preview">
-              <div class="picture-placeholder">{{ getPictureEmoji() }}</div>
-              <h3>{{ windowData.title }}</h3>
-              <p>Picture preview and details</p>
-            </div>
-          </div>
-        }
-      }
+    }
+    @case ('picture') {
+    <div class="picture-content">
+      <div class="picture-preview">
+        <div class="picture-placeholder">{{ getPictureEmoji() }}</div>
+        <h3>{{ windowData.title }}</h3>
+        <p>Picture preview and details</p>
+      </div>
     </div>
-
-    <div class="resize-handle" (mousedown)="onResizeHandleMouseDown($event)"></div>
+    }
+    @case ('weather') {
+    <app-weather></app-weather>
+    }
+    }
   </div>
+
+  <div class="resize-handle" (mousedown)="onResizeHandleMouseDown($event)"></div>
+</div>
 }

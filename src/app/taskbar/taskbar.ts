@@ -2,6 +2,7 @@ import { Component, OnDestroy, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
 import { WindowData } from '../window/window.component';
+import { WeatherService } from '../services/weather.service';
 
 @Component({
   selector: 'app-taskbar',
@@ -28,10 +29,19 @@ export class Taskbar implements OnDestroy {
 
   currentTime = signal<string>(this.formatTime(new Date()));
 
-  constructor(private windowManager: WindowManagerService) {
+  constructor(
+    private windowManager: WindowManagerService,
+    public weatherService: WeatherService
+  ) {
+    this.weatherService.fetchWeather();
     this.timeIntervalId = window.setInterval(() => {
       this.currentTime.set(this.formatTime(new Date()));
     }, 30_000);
+
+    // Refresh weather every 10 minutes
+    window.setInterval(() => {
+      this.weatherService.fetchWeather();
+    }, 600_000);
   }
 
   ngOnDestroy(): void {
@@ -65,12 +75,17 @@ export class Taskbar implements OnDestroy {
     this.windowManager.focusWindow(id);
   }
 
-  getWindowIcon(window: WindowData): string {
-    return window.type === 'folder' ? '📁' : '🖼️';
-  }
-
   trackByWindowId(_index: number, window: WindowData): string {
     return window.id;
+  }
+
+  toggleWeather(): void {
+    this.windowManager.toggleWeatherWindow();
+  }
+
+  getWindowIcon(window: WindowData): string {
+    if (window.type === 'weather') return '🌦️';
+    return window.type === 'folder' ? '📁' : '🖼️';
   }
 
   private formatTime(date: Date): string {

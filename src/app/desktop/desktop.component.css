@@ -52,7 +52,31 @@
   background-color: rgb(39, 37, 37);
   color: white;
   border-radius: 10px;
-  padding:10px;
+  padding: 10px;
+}
+
+.type-text-container .close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  color: #999;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.type-text-container .close-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
 }
 
 * {

@@ -16,6 +16,7 @@
   </app-window>
   }
   <div class="type-text-container" [class.fade-in]="!isFadedOut" [class.fade-out]="isFadedOut">
+    <button class="close-btn" (click)="closeNotification()" aria-label="Close notification">✕</button>
     <app-type-text [typeText]="typeText" [needCursor]="true" (displayFinished)="onTypeFinished()"></app-type-text>
   </div>
 

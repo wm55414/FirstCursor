@@ -23,7 +23,7 @@ interface DesktopItem {
 })
 export class DesktopComponent {
   @ViewChild(TypeText) typeTextComponent!: TypeText;
-  
+
   desktopItems: DesktopItem[] = [
     {
       id: '1',
@@ -103,13 +103,17 @@ export class DesktopComponent {
       this.isFadedOut = false;
       setTimeout(() => this.typeTextComponent.type(true), 2000);
     }, 1000);
-    
+
   }
 
   onTypeFinished() {
     setTimeout(() => {
       this.isFadedOut = true;
     }, 1000); // Wait 1 second after typing finishes before fading out
+  }
+
+  closeNotification() {
+    this.isFadedOut = true;
   }
 
   onItemClick(item: DesktopItem): void {
@@ -123,7 +127,12 @@ export class DesktopComponent {
   onItemDoubleClick(item: DesktopItem): void {
     console.log(`Double-clicked: ${item.name}`);
     this.selectedItem.set(null);
-    this.windowManager.openWindow(item.name, item.type, item.name);
+    const count = this.windowManager.windows().length;
+    const x = 100 + count * 30;
+    const y = 100 + count * 30;
+    const width = item.type === 'folder' ? 500 : 600;
+    const height = item.type === 'folder' ? 400 : 450;
+    this.windowManager.openWindow(item.name, item.type, item.name, x, y, width, height);
   }
 
   onDesktopClick(): void {
@@ -165,7 +174,12 @@ export class DesktopComponent {
   }
 
   onOpenPictureFromFolder(payload: { title: string }): void {
-    this.windowManager.openWindow(payload.title, 'picture', payload.title);
+    const count = this.windowManager.windows().length;
+    const x = 100 + count * 30;
+    const y = 100 + count * 30;
+    const width = 600;
+    const height = 450;
+    this.windowManager.openWindow(payload.title, 'picture', payload.title, x, y, width, height);
   }
 
   @HostListener('document:mousemove', ['$event'])

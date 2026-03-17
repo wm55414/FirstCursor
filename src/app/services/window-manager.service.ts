@@ -8,17 +8,26 @@ export class WindowManagerService {
   private nextZIndex = 1000;
   windows = signal<WindowData[]>([]);
 
-  openWindow(title: string, type: 'folder' | 'picture', content: string): string {
-    const id = `window-${Date.now()}-${Math.random()}`;
+  openWindow(title: string, type: 'folder' | 'picture' | 'weather', content: string, x: number, y: number, width: number, height: number): string {
+    const id = type === 'weather' ? 'weather-window' : `window-${Date.now()}-${Math.random()}`;
+    const existing = this.windows().find(w => w.id === id);
+    if (existing) {
+      if (existing.isMinimized) {
+        this.toggleMinimizeWindow(id);
+      }
+      this.focusWindow(id);
+      return id;
+    }
+
     const newWindow: WindowData = {
       id,
       title,
       type,
       content,
-      x: 100 + this.windows().length * 30,
-      y: 100 + this.windows().length * 30,
-      width: type === 'folder' ? 500 : 600,
-      height: type === 'folder' ? 400 : 450,
+      x,
+      y,
+      width,
+      height,
       zIndex: this.nextZIndex++,
       isMinimized: false,
       isMaximized: false
@@ -26,6 +35,31 @@ export class WindowManagerService {
 
     this.windows.update(windows => [...windows, newWindow]);
     return id;
+  }
+
+  toggleWeatherWindow(): void {
+    const id = 'weather-window';
+    const existing = this.windows().find(w => w.id === id);
+    if (existing) {
+      if (existing.isMinimized) {
+        this.toggleMinimizeWindow(id);
+        this.focusWindow(id);
+      } else {
+        // If it's the top window, minimize it. Otherwise, focus it.
+        const topWindow = this.windows().reduce((prev, curr) => curr.zIndex > prev.zIndex ? curr : prev);
+        if (topWindow.id === id) {
+          this.toggleMinimizeWindow(id);
+        } else {
+          this.focusWindow(id);
+        }
+      }
+    } else {
+      const width = 450;
+      const height = 500;
+      const x = (window.innerWidth - width) / 2;
+      const y = (window.innerHeight - height) / 2;
+      this.openWindow('Weather', 'weather', '', x, y, width, height);
+    }
   }
 
   closeWindow(id: string): void {

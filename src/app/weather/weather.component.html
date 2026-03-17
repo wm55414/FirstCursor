@@ -1,0 +1,45 @@
+<div class="weather-container">
+    @if (weatherService.loading()) {
+    <div class="loading-overlay">
+        <div class="spinner"></div>
+        <span>Fetching weather in Taiwan...</span>
+    </div>
+    }
+
+    @if (weatherService.error()) {
+    <div class="error-message">
+        <p>{{ weatherService.error() }}</p>
+        <button (click)="refresh()" class="retry-button">Retry</button>
+    </div>
+    }
+
+    @if (weatherService.currentWeather(); as weather) {
+    <div class="weather-content" [style.backgroundImage]="'url(' + weather.image + ')'">
+        <div class="overlay"></div>
+
+        <div class="weather-info">
+            <div class="location">Taipei, Taiwan</div>
+            <div class="main-stats">
+                <div class="weather-icon-large">{{ weather.icon }}</div>
+                <div class="temperature">{{ weather.temperature }}°C</div>
+            </div>
+            <div class="description">{{ weather.label }}</div>
+
+            <div class="details">
+                <div class="detail-item">
+                    <span class="label">Humidity</span>
+                    <span class="value">{{ weather.humidity }}%</span>
+                </div>
+                <div class="detail-item">
+                    <span class="label">Wind</span>
+                    <span class="value">{{ weather.windSpeed }} km/h</span>
+                </div>
+            </div>
+
+            <button class="refresh-button" (click)="refresh()" title="Refresh">
+                🔄
+            </button>
+        </div>
+    </div>
+    }
+</div>

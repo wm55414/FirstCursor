@@ -6,6 +6,8 @@
   flex-direction: column;
   min-width: 300px;
   min-height: 200px;
+  overflow: hidden;
+  border-radius: 5px;
 }
 
 .window.maximized {
@@ -13,7 +15,7 @@
 }
 
 .title-bar {
-  background: linear-gradient(to bottom, #0078d4 0%, #005a9e 100%);
+  background: #393333;
   color: white;
   height: 30px;
   display: flex;
@@ -40,11 +42,11 @@
 }
 
 .control-btn:hover {
-  background: #d4d4d4;
+  background: #646464;
 }
 
 .control-btn.close:hover {
-  background: #e81123;
+  background: #be101e;
   color: white;
 }
 
@@ -64,6 +66,14 @@
   filter: invert(1);
 }
 
+.control-btn.restore::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  background: url('/assets/icons/doubleSquare.png') no-repeat center / contain;
+  filter: invert(1);
+}
+
 .control-btn.close::before {
   content: '';
   position: absolute;
@@ -79,12 +89,11 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-left:8px;
+  margin-left: 8px;
 }
 
 .window-content {
   flex: 1;
-  padding: 16px;
   background: #ffffff;
   overflow: auto;
 }
@@ -166,15 +175,13 @@
   width: 16px;
   height: 16px;
   cursor: nwse-resize;
-  background: linear-gradient(
-    -45deg,
-    transparent 30%,
-    #c0c0c0 30%,
-    #c0c0c0 33%,
-    transparent 33%,
-    transparent 66%,
-    #c0c0c0 66%,
-    #c0c0c0 70%,
-    transparent 70%
-  );
+  background: linear-gradient(-45deg,
+      transparent 30%,
+      #c0c0c0 30%,
+      #c0c0c0 33%,
+      transparent 33%,
+      transparent 66%,
+      #c0c0c0 66%,
+      #c0c0c0 70%,
+      transparent 70%);
 }

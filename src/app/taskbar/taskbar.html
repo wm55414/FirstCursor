@@ -7,27 +7,29 @@
 
   <div class="taskbar-center">
     @if (windows().length === 0) {
-      <div class="taskbar-empty">No windows open</div>
+    <div class="taskbar-empty">No windows open</div>
     } @else {
-      @for (window of windows(); track trackByWindowId($index, window)) {
-        <button
-          class="taskbar-item"
-          type="button"
-          (click)="onTaskClick(window.id)"
-          [class.active]="window.id === activeWindowId()"
-        >
-          <span class="taskbar-item-icon">
-            {{ getWindowIcon(window) }}
-          </span>
-          <span class="taskbar-item-title">
-            {{ window.title }}
-          </span>
-        </button>
-      }
+    @for (window of windows(); track trackByWindowId($index, window)) {
+    <button class="taskbar-item" type="button" (click)="onTaskClick(window.id)"
+      [class.active]="window.id === activeWindowId()">
+      <span class="taskbar-item-icon">
+        {{ getWindowIcon(window) }}
+      </span>
+      <span class="taskbar-item-title">
+        {{ window.title }}
+      </span>
+    </button>
+    }
     }
   </div>
 
   <div class="taskbar-right">
+    @if (weatherService.currentWeather(); as weather) {
+    <div class="taskbar-tray-icon weather-tray-icon" (click)="toggleWeather()" title="{{ weather.label }}">
+      <span class="weather-tray-emoji">{{ weather.icon }}</span>
+      <span class="weather-tray-temp">{{ weather.temperature }}°C</span>
+    </div>
+    }
     <div class="taskbar-tray-icon">🔊</div>
     <div class="taskbar-tray-icon">📶</div>
     <div class="taskbar-time">
