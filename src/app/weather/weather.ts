@@ -6,8 +6,8 @@ import { WeatherService } from '../services/weather.service';
     selector: 'app-weather',
     standalone: true,
     imports: [CommonModule],
-    templateUrl: './weather.component.html',
-    styleUrl: './weather.component.css'
+    templateUrl: './weather.html',
+    styleUrl: './weather.css'
 })
 export class WeatherComponent implements OnInit {
     constructor(public weatherService: WeatherService) { }

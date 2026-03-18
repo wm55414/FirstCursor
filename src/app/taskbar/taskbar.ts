@@ -1,7 +1,7 @@
 import { Component, OnDestroy, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
-import { WindowData } from '../window/window.component';
+import { WindowData } from '../window/window';
 import { WeatherService } from '../services/weather.service';
 
 @Component({

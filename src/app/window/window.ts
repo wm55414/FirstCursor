@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FileItem, FileSystemService } from '../services/file-system.service';
-import { WeatherComponent } from '../weather/weather.component';
+import { WeatherComponent } from '../weather/weather';
 
 export interface WindowData {
   id: string;
@@ -27,7 +27,7 @@ export interface WindowData {
   selector: 'app-window',
   standalone: true,
   imports: [CommonModule, WeatherComponent],
-  templateUrl: './window.component.html',
+  templateUrl: './window.html',
   styleUrls: ['./window.component.css']
 })
 export class WindowComponent implements OnInit {
@@ -53,6 +53,24 @@ export class WindowComponent implements OnInit {
     if (this.windowData.type === 'folder') {
       this.currentFolderPath = [this.windowData.title];
     }
+  }
+
+  navigateBack(): void {
+    if (this.currentFolderPath.length > 1) {
+      this.currentFolderPath.pop();
+      this.currentFolderPath = [...this.currentFolderPath];
+    }
+  }
+
+  navigateUp(): void {
+    if (this.currentFolderPath.length > 1) {
+      this.currentFolderPath.pop();
+      this.currentFolderPath = [...this.currentFolderPath];
+    }
+  }
+
+  refreshFolder(): void {
+    this.currentFolderPath = [...this.currentFolderPath];
   }
 
   onWindowClick(): void {
@@ -128,15 +146,6 @@ export class WindowComponent implements OnInit {
   onMouseUp(): void {
     this.isDragging = false;
     this.isResizing = false;
-  }
-
-  getFolderFiles(): string[] {
-    const folderFiles: { [key: string]: string[] } = {
-      'Documents': ['Document1.txt', 'Report.pdf', 'Notes.docx', 'Budget.xlsx'],
-      'Pictures': ['Photo1.jpg', 'Photo2.png', 'Photo3.jpg'],
-      'Downloads': ['setup.exe', 'archive.zip', 'document.pdf']
-    };
-    return folderFiles[this.windowData.title] || ['No files'];
   }
 
   getCurrentFolderItems(): FileItem[] {

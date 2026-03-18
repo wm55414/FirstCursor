@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { WindowData } from '../window/window.component';
+import { WindowData } from '../window/window';
 
 @Injectable({
   providedIn: 'root'

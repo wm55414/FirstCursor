@@ -101,44 +101,112 @@
 .folder-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
   height: 100%;
 }
 
-.folder-content .folder-icon {
-  font-size: 64px;
-  margin-bottom: 16px;
+.folder-toolbar {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  background-color: #f5f6f7;
+  border-bottom: 1px solid #dcdcdc;
+  gap: 12px;
 }
 
-.folder-content h3 {
-  margin-bottom: 16px;
+.nav-buttons {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.nav-btn:hover:not(:disabled) {
+  background-color: #e5e5e5;
+  border-color: #dcdcdc;
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.address-bar-container {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  background-color: white;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  padding: 4px 8px;
+  min-width: 0;
+}
+
+.address-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.address-path {
+  font-size: 13px;
   color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .file-list {
-  width: 100%;
-  max-width: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  padding: 16px;
+  gap: 16px;
+  flex: 1;
+  overflow: auto;
 }
 
 .file-item {
   display: flex;
+  flex-direction: column;
   align-items: center;
   padding: 8px;
   cursor: pointer;
   border-radius: 4px;
+  width: 80px;
+  text-align: center;
 }
 
 .file-item:hover {
   background: #e8f4f8;
+  border: 1px solid #d3e8f0;
+  margin: -1px; /* Compensate for border */
 }
 
 .file-icon {
-  font-size: 24px;
-  margin-right: 8px;
+  font-size: 32px;
+  margin-bottom: 4px;
 }
 
 .file-name {
   color: #333;
+  font-size: 12px;
+  word-break: break-word;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  width: 100%;
 }
 
 .picture-content {

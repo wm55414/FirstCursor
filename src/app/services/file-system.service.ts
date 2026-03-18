@@ -12,7 +12,7 @@ export interface FileItem {
 export class FileSystemService {
   private readonly rootItems: FileItem[] = [
     {
-      name: 'Documents',
+      name: 'People I admire',
       type: 'folder',
       children: [
         { name: 'Document1.txt', type: 'picture' },
@@ -28,7 +28,7 @@ export class FileSystemService {
       ]
     },
     {
-      name: 'Pictures',
+      name: 'Me',
       type: 'folder',
       children: [
         { name: 'Vacation.jpg', type: 'picture' },
@@ -45,7 +45,7 @@ export class FileSystemService {
       ]
     },
     {
-      name: 'Downloads',
+      name: 'Photos',
       type: 'folder',
       children: [
         { name: 'setup.exe', type: 'picture' },

@@ -1,7 +1,7 @@
 import { Component, signal, computed, HostListener, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
-import { WindowComponent, WindowData } from '../window/window.component';
+import { WindowComponent, WindowData } from '../window/window';
 import { Taskbar } from '../taskbar/taskbar';
 import { TypeText, TypeTextContent } from '../type-text/type-text';
 
@@ -27,7 +27,7 @@ export class DesktopComponent {
   desktopItems: DesktopItem[] = [
     {
       id: '1',
-      name: 'Documents',
+      name: 'Me',
       type: 'folder',
       icon: '📁',
       x: 50,
@@ -35,7 +35,7 @@ export class DesktopComponent {
     },
     {
       id: '2',
-      name: 'Pictures',
+      name: 'People I admire',
       type: 'folder',
       icon: '📁',
       x: 50,
@@ -43,7 +43,7 @@ export class DesktopComponent {
     },
     {
       id: '3',
-      name: 'Downloads',
+      name: 'Photos',
       type: 'folder',
       icon: '📁',
       x: 50,
@@ -51,6 +51,14 @@ export class DesktopComponent {
     },
     {
       id: '4',
+      name: 'Games',
+      type: 'folder',
+      icon: '📁',
+      x: 50,
+      y: 350
+    },
+    {
+      id: '5',
       name: 'Vacation.jpg',
       type: 'picture',
       icon: '🖼️',
@@ -58,7 +66,7 @@ export class DesktopComponent {
       y: 50
     },
     {
-      id: '5',
+      id: '6',
       name: 'Family.png',
       type: 'picture',
       icon: '🖼️',
@@ -66,7 +74,7 @@ export class DesktopComponent {
       y: 150
     },
     {
-      id: '6',
+      id: '7',
       name: 'Sunset.jpg',
       type: 'picture',
       icon: '🖼️',

@@ -20,15 +20,25 @@
     @switch (windowData.type) {
     @case ('folder') {
     <div class="folder-content">
-      <div class="folder-icon">📁</div>
-      <h3>{{ windowData.title }}</h3>
+      <div class="folder-toolbar">
+        <div class="nav-buttons">
+          <button class="nav-btn" (click)="navigateBack()" [disabled]="currentFolderPath.length <= 1" title="Back">⬅️</button>
+          <button class="nav-btn" disabled title="Forward">➡️</button>
+          <button class="nav-btn" (click)="navigateUp()" [disabled]="currentFolderPath.length <= 1" title="Up">⬆️</button>
+          <button class="nav-btn" (click)="refreshFolder()" title="Refresh">🔄</button>
+        </div>
+        <div class="address-bar-container">
+          <span class="address-icon">📁</span>
+          <div class="address-path">{{ currentFolderPath.join(' > ') }}</div>
+        </div>
+      </div>
       <div class="file-list">
         @for (item of getCurrentFolderItems(); track item.name) {
-        <div class="file-item">
+        <div class="file-item" (dblclick)="onFolderItemDoubleClick(item)">
           <span class="file-icon">
             {{ item.type === 'folder' ? '📁' : getFileIcon(item.name) }}
           </span>
-          <span class="file-name" (dblclick)="onFolderItemDoubleClick(item)">
+          <span class="file-name">
             {{ item.name }}
           </span>
         </div>
