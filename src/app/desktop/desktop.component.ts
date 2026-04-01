@@ -1,14 +1,15 @@
-import { Component, signal, computed, HostListener, ViewChild } from '@angular/core';
+import { Component, signal, computed, HostListener, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WindowManagerService } from '../services/window-manager.service';
 import { WindowComponent, WindowData } from '../window/window';
 import { Taskbar } from '../taskbar/taskbar';
 import { TypeText, TypeTextContent } from '../type-text/type-text';
+import { WindowType } from '../core/types/windowType.type';
 
 interface DesktopItem {
   id: string;
   name: string;
-  type: 'folder' | 'picture';
+  type: 'folder' | 'picture' | 'admire';
   icon: string;
   x: number;
   y: number;
@@ -21,66 +22,17 @@ interface DesktopItem {
   templateUrl: './desktop.component.html',
   styleUrls: ['./desktop.component.css']
 })
-export class DesktopComponent {
+export class DesktopComponent implements AfterViewInit {
   @ViewChild(TypeText) typeTextComponent!: TypeText;
 
   desktopItems: DesktopItem[] = [
-    {
-      id: '1',
-      name: 'Me',
-      type: 'folder',
-      icon: '📁',
-      x: 50,
-      y: 50
-    },
-    {
-      id: '2',
-      name: 'People I admire',
-      type: 'folder',
-      icon: '📁',
-      x: 50,
-      y: 150
-    },
-    {
-      id: '3',
-      name: 'Photos',
-      type: 'folder',
-      icon: '📁',
-      x: 50,
-      y: 250
-    },
-    {
-      id: '4',
-      name: 'Games',
-      type: 'folder',
-      icon: '📁',
-      x: 50,
-      y: 350
-    },
-    {
-      id: '5',
-      name: 'Vacation.jpg',
-      type: 'picture',
-      icon: '🖼️',
-      x: 200,
-      y: 50
-    },
-    {
-      id: '6',
-      name: 'Family.png',
-      type: 'picture',
-      icon: '🖼️',
-      x: 200,
-      y: 150
-    },
-    {
-      id: '7',
-      name: 'Sunset.jpg',
-      type: 'picture',
-      icon: '🖼️',
-      x: 200,
-      y: 250
-    }
+    { id: '1', name: 'Me', type: 'folder', icon: '📁', x: 50, y: 50 },
+    { id: '2', name: 'People I admire', type: 'folder', icon: '📁', x: 50, y: 150 },
+    { id: '3', name: 'Photos', type: 'folder', icon: '📁', x: 50, y: 250 },
+    { id: '4', name: 'Games', type: 'folder', icon: '📁', x: 50, y: 350 },
+    { id: '5', name: 'Vacation.jpg', type: 'picture', icon: '🖼️', x: 200, y: 50 },
+    { id: '6', name: 'Family.png', type: 'picture', icon: '🖼️', x: 200, y: 150 },
+    { id: '7', name: 'Sunset.jpg', type: 'picture', icon: '🖼️', x: 200, y: 250 }
   ];
 
   typeText: TypeTextContent = {
@@ -106,18 +58,18 @@ export class DesktopComponent {
 
   isFadedOut = true;
 
-  ngAfterViewInit() {
-    setTimeout(() => {
-      this.isFadedOut = false;
-      setTimeout(() => this.typeTextComponent.type(true), 2000);
-    }, 1000);
+  delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
+  async ngAfterViewInit() {
+    await this.delay(1000);
+    this.isFadedOut = false;
+    await this.delay(2000);
+    this.typeTextComponent.type(true);
   }
 
-  onTypeFinished() {
-    setTimeout(() => {
-      this.isFadedOut = true;
-    }, 1000); // Wait 1 second after typing finishes before fading out
+  async onTypeFinished() {
+    await this.delay(1000);
+    this.isFadedOut = true;
   }
 
   closeNotification() {
@@ -181,13 +133,13 @@ export class DesktopComponent {
     this.windowManager.toggleMaximizeWindow(id);
   }
 
-  onOpenPictureFromFolder(payload: { title: string }): void {
+  onNewWindowOpen(payload: { title: string; type: WindowType }): void {
     const count = this.windowManager.windows().length;
     const x = 100 + count * 30;
     const y = 100 + count * 30;
-    const width = 600;
-    const height = 450;
-    this.windowManager.openWindow(payload.title, 'picture', payload.title, x, y, width, height);
+    const width = payload.type === 'folder' ? 500 : 600;
+    const height = payload.type === 'folder' ? 400 : 450;
+    this.windowManager.openWindow(payload.title, payload.type, payload.title, x, y, width, height);
   }
 
   @HostListener('document:mousemove', ['$event'])

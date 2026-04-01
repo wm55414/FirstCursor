@@ -2,11 +2,13 @@ import { Component, Input, Output, EventEmitter, HostListener, OnInit } from '@a
 import { CommonModule } from '@angular/common';
 import { FileItem, FileSystemService } from '../services/file-system.service';
 import { WeatherComponent } from '../weather/weather';
+import { Admire } from '../admire/admire';
+import { WindowType } from '../core/types/windowType.type';
 
 export interface WindowData {
   id: string;
   title: string;
-  type: 'folder' | 'picture' | 'weather';
+  type: WindowType;
   content: string;
   x: number;
   y: number;
@@ -26,9 +28,9 @@ export interface WindowData {
 @Component({
   selector: 'app-window',
   standalone: true,
-  imports: [CommonModule, WeatherComponent],
+  imports: [CommonModule, WeatherComponent, Admire],
   templateUrl: './window.html',
-  styleUrls: ['./window.component.css']
+  styleUrls: ['./window.css']
 })
 export class WindowComponent implements OnInit {
   @Input() windowData!: WindowData;
@@ -38,7 +40,7 @@ export class WindowComponent implements OnInit {
   @Output() updateSize = new EventEmitter<{ id: string; width: number; height: number }>();
   @Output() minimize = new EventEmitter<string>();
   @Output() toggleMaximize = new EventEmitter<string>();
-  @Output() openPicture = new EventEmitter<{ title: string }>();
+  @Output() openWindow = new EventEmitter<{ title: string; type: WindowType }>();
 
   isDragging = false;
   isResizing = false;
@@ -161,8 +163,8 @@ export class WindowComponent implements OnInit {
       return;
     }
 
-    if (item.type === 'picture') {
-      this.openPicture.emit({ title: item.name });
+    if (item.type === 'picture' || item.type === 'admire') {
+      this.openWindow.emit({ title: item.name, type: item.type });
     }
   }
 

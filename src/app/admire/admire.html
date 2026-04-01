@@ -1,0 +1,17 @@
+<div class="admire-layout">
+  <div class="admire-left">
+    <div class="image-wrapper">
+      <img [src]="imageSrc" alt="Admire" class="admire-image">
+    </div>
+  </div>
+  <div class="admire-right">
+    <div class="title">
+      {{person}}
+    </div>
+    <div class="text-container">
+      <app-type-text style="--text-size: 10px;" [typeText]="typeText" [needCursor]="true"
+        (displayFinished)="onTypeFinished()">
+      </app-type-text>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,7 @@ export class WindowManagerService {
   private nextZIndex = 1000;
   windows = signal<WindowData[]>([]);
 
-  openWindow(title: string, type: 'folder' | 'picture' | 'weather', content: string, x: number, y: number, width: number, height: number): string {
+  openWindow(title: string, type: 'folder' | 'picture' | 'weather' | 'admire', content: string, x: number, y: number, width: number, height: number): string {
     const id = type === 'weather' ? 'weather-window' : `window-${Date.now()}-${Math.random()}`;
     const existing = this.windows().find(w => w.id === id);
     if (existing) {

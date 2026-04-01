@@ -189,7 +189,6 @@
 .file-item:hover {
   background: #e8f4f8;
   border: 1px solid #d3e8f0;
-  margin: -1px; /* Compensate for border */
 }
 
 .file-icon {

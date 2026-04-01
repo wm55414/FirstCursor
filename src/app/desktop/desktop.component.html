@@ -12,7 +12,7 @@
   <app-window [windowData]="window" (close)="onWindowClose($event)" (focus)="onWindowFocus($event)"
     (updatePosition)="onWindowPositionUpdate($event)" (updateSize)="onWindowSizeUpdate($event)"
     (minimize)="onWindowMinimize($event)" (toggleMaximize)="onWindowToggleMaximize($event)"
-    (openPicture)="onOpenPictureFromFolder($event)">
+    (openWindow)="onNewWindowOpen($event)">
   </app-window>
   }
   <div class="type-text-container" [class.fade-in]="!isFadedOut" [class.fade-out]="isFadedOut">

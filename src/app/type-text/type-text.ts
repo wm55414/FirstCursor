@@ -19,16 +19,23 @@ export class TypeText {
   @Output() displayFinished = new EventEmitter<void>();
 
   text = signal("");
+  private isTyping = false;
 
   private delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
   async type(needRollback: boolean){
+    if (this.isTyping) return;
+    this.isTyping = true;
+    this.text.set("");
+    
     if(needRollback){
       await this.typeLineAndRollback();
     }
     else{
       await this.typeLine();
     }
+    
+    this.isTyping = false;
     this.displayFinished.emit();
   }
 

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface FileItem {
   name: string;
-  type: 'folder' | 'picture';
+  type: 'folder' | 'picture' | 'admire';
   children?: FileItem[];
 }
 
@@ -15,16 +15,8 @@ export class FileSystemService {
       name: 'People I admire',
       type: 'folder',
       children: [
-        { name: 'Document1.txt', type: 'picture' },
-        { name: 'Report.pdf', type: 'picture' },
-        {
-          name: 'Work',
-          type: 'folder',
-          children: [
-            { name: 'ProjectPlan.docx', type: 'picture' },
-            { name: 'Budget.xlsx', type: 'picture' }
-          ]
-        }
+        { name: 'Eric Barone.admire', type: 'admire' },
+        { name: 'Linus Torvalds.admire', type: 'admire' },
       ]
     },
     {
@@ -55,12 +47,9 @@ export class FileSystemService {
     }
   ];
 
-  getRootItems(): FileItem[] {
-    return this.rootItems;
-  }
-
   getFolderItems(path: string[]): FileItem[] {
-    if (!path.length) {
+
+    if (path.length === 0) {
       return this.rootItems;
     }
 

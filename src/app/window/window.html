@@ -22,9 +22,11 @@
     <div class="folder-content">
       <div class="folder-toolbar">
         <div class="nav-buttons">
-          <button class="nav-btn" (click)="navigateBack()" [disabled]="currentFolderPath.length <= 1" title="Back">⬅️</button>
+          <button class="nav-btn" (click)="navigateBack()" [disabled]="currentFolderPath.length <= 1"
+            title="Back">⬅️</button>
           <button class="nav-btn" disabled title="Forward">➡️</button>
-          <button class="nav-btn" (click)="navigateUp()" [disabled]="currentFolderPath.length <= 1" title="Up">⬆️</button>
+          <button class="nav-btn" (click)="navigateUp()" [disabled]="currentFolderPath.length <= 1"
+            title="Up">⬆️</button>
           <button class="nav-btn" (click)="refreshFolder()" title="Refresh">🔄</button>
         </div>
         <div class="address-bar-container">
@@ -57,6 +59,9 @@
     }
     @case ('weather') {
     <app-weather></app-weather>
+    }
+    @case ('admire') {
+    <app-admire [person]="windowData.title"></app-admire>
     }
     }
   </div>

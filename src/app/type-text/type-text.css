@@ -1,9 +1,10 @@
 .content {
     display: inline;
-    font-size: 24px;
+    font-size: var(--text-size, 24px);
     font-family: 'consolas', Courier, monospace;
 }
-.content::after {
+
+.show-cursor::after {
     content: '';
     display: inline-block;
     width: 8px;
@@ -13,13 +14,16 @@
     animation: blink 1s steps(1) infinite;
 }
 
-/* .cursor {
-    display: inline;
-    animation: blink 1s steps(1) infinite;
-} */
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
 
-@keyframes blink{
-    0% { opacity: 1;}
-    50% { opacity: 0;}
-    100% { opacity: 1;}
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }

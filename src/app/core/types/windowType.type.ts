@@ -1,0 +1,1 @@
+export type WindowType = 'folder' | 'picture' | 'weather' | 'admire';
