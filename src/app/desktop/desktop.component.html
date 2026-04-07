@@ -1,7 +1,7 @@
 <div class="desktop" (click)="onDesktopClick()">
   @for (item of desktopItems; track item.id) {
-  <div class="desktop-item" [class.selected]="selectedItem()?.id === item.id" [style.left.px]="item.x"
-    [style.top.px]="item.y" (mousedown)="onItemMouseDown($event, item)"
+  <div class="desktop-item" [class.selected]="selectedItem()?.id === item.id" [style.left.px]="item.x || 0"
+    [style.top.px]="item.y || 0" (mousedown)="onItemMouseDown($event, item)"
     (click)="$event.stopPropagation(); onItemClick(item)" (dblclick)="onItemDoubleClick(item)">
     <div class="icon">{{ item.icon }}</div>
     <div class="label">{{ item.name }}</div>

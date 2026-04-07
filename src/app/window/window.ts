@@ -1,9 +1,10 @@
 import { Component, Input, Output, EventEmitter, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FileItem, FileSystemService } from '../services/file-system.service';
+import { FileSystemService } from '../services/file-system.service';
 import { WeatherComponent } from '../weather/weather';
 import { Admire } from '../admire/admire';
 import { WindowType } from '../core/types/windowType.type';
+import { FileItem } from '../core/types/FileItem.type';
 
 export interface WindowData {
   id: string;
@@ -40,7 +41,7 @@ export class WindowComponent implements OnInit {
   @Output() updateSize = new EventEmitter<{ id: string; width: number; height: number }>();
   @Output() minimize = new EventEmitter<string>();
   @Output() toggleMaximize = new EventEmitter<string>();
-  @Output() openWindow = new EventEmitter<{ title: string; type: WindowType }>();
+  @Output() openWindow = new EventEmitter<FileItem>();
 
   isDragging = false;
   isResizing = false;
@@ -164,7 +165,7 @@ export class WindowComponent implements OnInit {
     }
 
     if (item.type === 'picture' || item.type === 'admire') {
-      this.openWindow.emit({ title: item.name, type: item.type });
+      this.openWindow.emit(item);
     }
   }
 

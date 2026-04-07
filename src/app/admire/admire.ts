@@ -17,8 +17,8 @@ export class Admire implements AfterViewInit {
   typeText: TypeTextContent = {
     fullText: ['Loading...'],
     rollbackInterval: 0,
-    textTypeInterval: 20,
-    lineTypeInterval: 600,
+    textTypeInterval: 8,
+    lineTypeInterval: 0,
   };
 
   delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -29,39 +29,33 @@ export class Admire implements AfterViewInit {
 
   setupContent() {
     if (this.person.includes('Eric')) {
-      this.imageSrc = 'assets/images/tea time.jpg';
+      this.person = 'Eric Barone';
+      this.imageSrc = 'assets/images/admires/Eric_Barone.jpg';
       this.typeText.fullText = [
-        "Eric Barone, also known as ConcernedApe.",
-        "",
+        "Also known as ConcernedApe.",
         "He is the creator of Stardew Valley, a beloved game that",
         "brought joy and relaxation to millions of players.",
-        "",
         "What I admire most is his unmatched dedication:",
         "he developed the entire game by himself over four years.",
         "That includes the pixel art, the music, the story, and the engine.",
-        "",
         "His work is a pure testament to the power of passion and perseverance."
       ];
     } else if (this.person.includes('Linus')) {
-      this.imageSrc = 'assets/images/login-head.jpeg';
+      this.person = 'Linus Torvalds';
+      this.imageSrc = 'assets/images/admires/Linus_Torvalds.jpg';
       this.typeText.fullText = [
-        "Linus Torvalds.",
-        "",
         "The principal developer of the Linux kernel.",
         "His creation has profoundly changed the world of software,",
         "powering everything from smartphones and smart appliances",
         "to the supercomputers and servers that run the internet.",
-        "",
         "He also created Git, the version control system",
         "we developers rely on every single day.",
-        "",
         "His open-source contributions have shaped modern computing."
       ];
     } else {
       this.imageSrc = 'assets/images/tea time.jpg';
       this.typeText.fullText = [
         "A person worthy of admiration.",
-        "",
         "They have made a significant impact.",
         "Their work inspires others to achieve greatness."
       ];
